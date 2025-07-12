@@ -1,0 +1,22 @@
+name: Deploy static site to Azure Web App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Upload static files to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'windowsexapp'  # 替換為您的 App Service 名稱
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
+        package: .
